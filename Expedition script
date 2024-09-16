@@ -1,0 +1,46 @@
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+local Window = OrionLib:MakeWindow({
+    Name = "Etherbyte Hub",
+    HidePremium = false,
+    SaveConfig = true,
+    ConfigFolder = "OrionTest"
+})
+
+local Tab = Window:MakeTab({
+    Name = "Teleportation",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+local Bases = {
+    ["Base 1"] = CFrame.new(-3719, 225, 235),
+    ["Base 2"] = CFrame.new(1790, 105, -137),
+    ["Base 3"] = CFrame.new(5892, 320, -20),
+    ["Base 4"] = CFrame.new(8988, 595, 105),
+    ["Base 5"] = CFrame.new(10944, 549, 102)
+}
+
+local SelectedBase
+
+Tab:AddDropdown({
+    Name = "Base",
+    Default = "Base 1",
+    Options = {"Base 1", "Base 2", "Base 3", "Base 4", "Base 5"},
+    Callback = function(Value)
+        SelectedBase = Value
+    end
+})
+
+Tab:AddButton({
+    Name = "Teleport",
+    Callback = function()
+        if SelectedBase then
+            local pl = game.Players.LocalPlayer.Character.HumanoidRootPart
+            local location = Bases[SelectedBase]
+            local humanoid = game.Players.LocalPlayer.Character.Humanoid
+            humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+            wait(0.1)
+            pl.CFrame = location
+        end
+    end
+})
